@@ -2,7 +2,8 @@
 //
 // [Artigio, Livro, Áudio, Vídeo]
 // [Universitário, Secundário, Pós-graduação]
-//
+
+// Para el que le toque exponer y hacer la demostracion, el buscador funciona por disciplinas: [Programacion, Fisica, Quimica, Biologia, Matematica, Astronomia, Bioquimica], estos varian segun el idoma seleccionado
 
 export const portugueseResources = [
   {

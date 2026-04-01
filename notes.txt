@@ -1,0 +1,57 @@
+RDFXMLPARSER
+
+URI: cadena de caracteres que identifica un recurso en la web o en cualquier otro contexto
+
+Sujeto (Subject): El recurso sobre el que se está haciendo una afirmación. Es de lo que estamos hablando.   URI del individuo
+Predicado (Predicate): La propiedad o relación que describe al sujeto. Es lo que conecta al sujeto con el objeto. URI de la propiedad
+Objeto (Object): El valor de la propiedad o el recurso con el que el sujeto se relaciona. valor de esa propiedad
+
+classHierarchy: Se construye un mapa que muestra las relaciones de "subclase de". Por ejemplo, si "Artículo" es subclase de "RecursoEducativo", esta relación se registra. Esto permite entender la estructura jerárquica de la ontología.
+individualTypes: Registra todos los tipos (rdf:type) a los que pertenece cada instancia (sujeto RDF). Una instancia puede tener múltiples tipos.
+instancesMap: Este es el corazón de la representación en memoria. Por cada instancia (identificada por su subject URI), se almacena un objeto con un id y un properties donde se guardan todas sus características (título, autor, URL, etc.). El método extractLocalName se usa para obtener nombres legibles de las URIs.
+
+-------------------------------------
+
+La ingestion y procesamiento de la ontologia comienza localizando el archivo RDF,
+cuando RdfXmLParser encuentra una tripleta (sujeto, predicado, objeto) extrae la informacion
+capturando jerarquias de clases, tipos de individuos, propiedades de instancias.
+
+
+Una vez que todas las instancias y sus propiedades básicas han sido extraídas y organizadas
+el sistema procede a enriquecer esta información con datos de DBpedia
+
+La conexión a DBpedia se realiza mediante la función que actúa como un cliente SPARQL simple:
+Busca una persona por su nombre y, si existe, intenta obtener un resumen.
+
+El sistema recorre cada instancia de recurso que fue extraida de la ontologia local,
+para cada instancia, se verifica si contiene una propiedad autor (punto de conexion de DBpedia y la ontologia).
+Si encuentra un autor, obtiene informacion adicional sobre esa persona desde dbpedia, estos se añaden como una
+nueva propiedad a las instancias.
+El sistema no almacena una copia completa de DBpedia, en su lugar, extiende dinamicamente al informacion
+de los recursos.
+
+Multilingualidad:
+
+Gestion de la informacion linguistica fuera de la ontologia, la ontologia base se mantiene en ingles.
+Las traducciones a español y portugues no se incrustan directamente en la ontolgia, sino que se gestionan como
+archivos manipulables separados que contienen las instancias traducidas
+
+Archivos de datos previamente traducidos y disponibles para la aplicación. Eso represetan una forma simplificada
+de tener la "informacion linguisitica fuera de la ontologia".
+Ventajas:
+- La ontologia permanece limpia
+- traducciones se realizan de forma indipendiente
+- Al ser un proceso de traduccion manual
+  - control sobre la precision e idoneidad cultural de los terminos
+
+
+La interfaz permite la seleccion dinamica del idioma con tres botones (ingles, Español, Portugues).
+La seleccion del idioma activa la carga y visualizacion de los archivos de la ontologia que han sido
+traducidos previamante, la busqueda se realiza sobre el contenido (disciplinas) ya en el idioma seleccionado
+Ademas del contenido de la ontologia, los elementos de la interfaz de usuario  se actulizan dinamicamente 
+al idioma elegido
+
+
+
+
+
